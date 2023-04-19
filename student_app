@@ -1,1 +1,153 @@
 #student app front end
+
+
+import React, {useState} from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Picker } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
+export default function App() {
+  const [name, setName] = React.useState('');
+  const [dob, setDob] = React.useState('');
+  const [dobPickerVisible, setDobPickerVisible] = React.useState(false);
+  const [gender, setGender] = React.useState('');
+  const [aadhaar, setAadhaar] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  
+  const handleNameChange = (text) => {
+    setName(text);
+  };
+
+  const handleDobChange = (date) => {
+    setDob(date);
+    setDobPickerVisible(false);
+  };
+
+  const handleDobPickerShow = () => {
+    setDobPickerVisible(true);
+  };
+
+  const handleDobPickerHide = () => {
+    setDobPickerVisible(false);
+  };
+
+  const handleGenderChange = (value) => {
+    setGender(value);
+  };
+
+  const handleAadhaarChange = (text) => {
+    setAadhaar(text);
+  };
+
+  const handlePhoneChange = (text) => {
+    setPhone(text);
+  };
+
+  const handleSubmit = () => {
+    console.log('Name:', name);
+    // console.log('Date of birth:', dob);
+    console.log('Gender:', gender);
+    console.log('Aadhaar Last 4 Digits:', aadhaar);
+    console.log('Phone Number:', phone);
+    // Add code to submit the form data to a backend server
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Create Profile</Text>
+      <View style={styles.formContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Full Name"
+          onChangeText={handleNameChange}
+          value={name}
+        />
+        <TouchableOpacity style={styles.input} onPress={handleDobPickerShow}>
+          <Text>{dob ? dob.toDateString : 'Date of Birth'}</Text>
+        </TouchableOpacity>
+        <DateTimePickerModal
+          isVisible={dobPickerVisible}
+          mode="date"
+          onConfirm={handleDobChange}
+          onCancel={handleDobPickerHide}
+        />
+
+        <Picker
+          selectedValue={gender}
+          onValueChange={handleGenderChange}
+          style={styles.input}
+        >
+          <Picker.Item label="Gender" value="" />
+          <Picker.Item label="Male" value="male" />
+          <Picker.Item label="Female" value="female" />
+        </Picker>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Aadhaar Last 4 Digits"
+          onChangeText={handleAadhaarChange}
+          value={aadhaar}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Phone Number"
+          onChangeText={handlePhoneChange}
+          value={phone}
+          keyboardType="phone-pad"
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.footer}>Thank you for using my app!</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20, // Add padding to create space
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  header: {
+    fontSize: 40, // Double the font size
+    marginBottom: 20, // Add margin to create space
+  },
+  footer: {
+    fontSize: 20, // Double the font size
+    marginTop: 20, // Add margin to create space
+  },
+  formContainer: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
+  button: {
+    backgroundColor: '#f4511e',
+    borderRadius: 5,
+    padding: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+});
